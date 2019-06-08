@@ -1,0 +1,35 @@
+{
+	"gui" : {
+		"background" : {
+			"zlevel" : -1,
+			"type" : "background",
+
+			"fileBody" : "/RApieMenu/ui/image/body.png"
+		},
+
+		"pie" : {
+			"zlevel" : 4,
+			"type" : "canvas",
+			"script" : "/RApieMenu/ui/widgetScripts/pie.lua",
+			"rect" : [0, 0, 500, 500],
+
+			"elementImage" : "/RApieMenu/ui/image/circle.png",
+
+			"captureMouseEvents" : true,
+			"captureKeyboardEvents" : false
+		}
+	},
+
+	"canvasClickCallbacks" : {
+		"pie" : "handleMouse"
+	},
+
+	"list" : [],
+	"callbackScript" : null,
+
+	"mainScript" : "/RApieMenu/ui/main.lua",
+
+	"localDir" : "/RApieMenu/ui/",
+	"scripts" : ["/RApieMenu/ui/scripts/core.lua"],
+	"scriptDelta" : 1
+}

@@ -1,0 +1,11 @@
+[
+	{"image":"/rexactions/actions/dab/icon.png","name":"dab"}, 
+	{"image":"/rexactions/actions/wave/icon.png","name":"wave"},
+	{"image":"/rexactions/actions/default/icon.png","name":"default"},
+	{"image":"/rexactions/actions/katzotsky/icon.png","name":"katzotsky"},
+	{"image":"/rexactions/actions/facepalm/icon.png","name":"facepalm"},
+	{"image":"/rexactions/actions/brofist/icon.png","name":"brofist"}
+	//,
+	//"template", 
+	//"template2"
+]
