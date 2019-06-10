@@ -1,11 +1,12 @@
 modPath = "/rexactions/"
 corePath = modPath.."controller/"
-includePath = corePath.."includes/"
 
 _included = {}
-function include(util)
-	require(includePath..util..".lua")
-	_included[includePath..util..".lua"] = true
+function include(name)
+	if _included[corePath.."includes/"..name..".lua"] then return end
+	_SBLOADED = {}
+	_included[corePath.."includes/"..name..".lua"] = true
+	require(corePath.."includes/"..name..".lua")
 end
 
 function init()
