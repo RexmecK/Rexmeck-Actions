@@ -16,6 +16,6 @@
 			// if the directory is defined. this is not needed. 
 			// it uses like this /rexactions/actions/<name>/
 			"name" : "template"
-		}, 
+		}
 	}
 ]
