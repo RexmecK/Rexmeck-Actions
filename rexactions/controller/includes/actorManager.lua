@@ -1,4 +1,4 @@
-include "configInstance"
+include "config"
 include "portrait"
 include "animator"
 include "animations"
@@ -10,7 +10,7 @@ actorManager.seats = {}
 actorManager.ready = false
 
 function actorManager:init()
-	self.loungePositions = configInstance.loungePositions
+	self.loungePositions = config.loungePositions
 	for i,v in pairs(self.loungePositions) do
 		self.seats[i] = 0
 	end

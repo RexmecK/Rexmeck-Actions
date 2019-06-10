@@ -9,11 +9,10 @@ function include(util)
 end
 
 function init()
-	include "configInstance" --needed to load certain configs
-	configInstance:init()
+	include "config" --needed to load certain configs
 
-	if configInstance.mode then
-		require(corePath.."systems/"..configInstance.mode..".lua")
+	if config.mode then
+		require(corePath.."systems/"..config.mode..".lua")
 	else
 		require(corePath.."systems/edit.lua")
 	end
@@ -48,5 +47,4 @@ function uninit()
 	if main and main.uninit then
 		main:uninit()
 	end
-	configInstance:uninit()
 end

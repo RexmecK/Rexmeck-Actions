@@ -1,6 +1,6 @@
 include "vec2"
 include "animator"
-include "configInstance"
+include "config"
 
 local function lerp(f,t,r)
 	return f + (t - f) * r
@@ -9,39 +9,58 @@ end
 transforms = {}
 transforms.current = {}
 transforms.override = {}
+transforms.overriden = false
 transforms.default = nil
+transforms.custom = {}
 
 function transforms:init()
-	self:load()
+	if not self.default then
+		self:load()
+	end
 	message.setHandler("getTransforms", function(_, loc, ...) if loc then return self.default end end)
-	message.setHandler("setTransforms", function(_, loc, transforms) if loc then self.override = table.vmerge(transforms or {}, {}) end end)
+	message.setHandler("setTransforms", function(_, loc, transforms) if loc then self.override = table.vmerge(transforms or {}, {}) self.overriden = true end end)
 	self:update(1/60)
 end
 
 function transforms:update(dt)
-	for name,def in pairs(self.default) do
-		local current = self.override[name] or self.current[name] or {}
-		local cal = {
-			scale			= vec2(current.scale or def.scale or 1),
-			scalePoint		= vec2(current.scalePoint or def.scalePoint or 0),
-			position		= vec2(current.position or def.position or 0) * vec2(current.scale or def.scale or 1),
-			rotation		= current.rotation or def.rotation or 0,
-			rotationPoint	= lerp(
-				vec2(current.scalePoint or def.scalePoint or 0), 
-				vec2(current.rotationPoint or def.rotationPoint or 0), 
-				vec2(current.scale or def.scale or 1)
-			)
-		}
-		animator.resetTransformationGroup(name) 
-		animator.scaleTransformationGroup(name, cal.scale, cal.scalePoint)
-		animator.rotateTransformationGroup(name, math.rad(cal.rotation), cal.rotationPoint)
-		animator.translateTransformationGroup(name, cal.position)
+	if not self.default then
+		self:load()
+	end
+	for name,def in pairs(self.default or {}) do
+		if self.custom[name] then
+			local current = table.vmerge(table.copy(def), self.override[name] or self.current[name] or {})
+			self.custom[name](current)
+		elseif animator.hasTransformationGroup(name) then
+			local current = self.override[name] or self.current[name] or {}
+			local cal = {
+				scale			= vec2(current.scale or def.scale or 1),
+				scalePoint		= vec2(current.scalePoint or def.scalePoint or 0),
+				position		= vec2(current.position or def.position or 0) * vec2(current.scale or def.scale or 1),
+				rotation		= current.rotation or def.rotation or 0,
+				rotationPoint	= lerp(
+					vec2(current.scalePoint or def.scalePoint or 0), 
+					vec2(current.rotationPoint or def.rotationPoint or 0), 
+					vec2(current.scale or def.scale or 1)
+				)
+			}
+			animator.resetTransformationGroup(name) 
+			animator.scaleTransformationGroup(name, cal.scale, cal.scalePoint)
+			animator.rotateTransformationGroup(name, math.rad(cal.rotation), cal.rotationPoint)
+			animator.translateTransformationGroup(name, cal.position)
+		end
 	end
 	self.override = {}
+	self.overriden = false
 end
 
 function transforms:uninit()
 
+end
+
+-- custom transform application.
+function transforms:addCustom(name, default, f)
+	self.custom[name] = f
+	self:add(name, default)
 end
 
 -- apply over the current
@@ -69,25 +88,28 @@ function transforms:reset()
 end
 
 function transforms:add(name, def)
-	local newtrans = {position = vec2(0,0), scale = vec2(1,1), scalePoint = vec2(0,0), rotation = 0, rotationPoint = vec2(0,0)}
-	if def then
-		newtrans = sb.jsonMerge(newtrans, def)
+	if not self.default then
+		self:load()
 	end
-	for i2,v2 in pairs(newtrans) do
+	for i2,v2 in pairs(def) do
 		if type(v2) == "table" and #v2 == 2 then
-			newtrans[i2] = vec2(v2)
+			def[i2] = vec2(v2)
 		end
 	end
-	self.default[name] = newtrans
+	self.default[name] = def
 end
 
 function transforms:load()
 	self:reset()
 	self.default = {}
-	local animations = configInstance:getAnimation()
-	for i,v in pairs(animations.transformationGroups) do
+	local animation = config:getAnimation()
+	for i,v in pairs(animation.transformationGroups or {}) do
 		if not v.ignore then -- check if we can use it
-			self:add(i, v.transform or {})
+			local newtrans = {position = vec2(0,0), scale = vec2(1,1), scalePoint = vec2(0,0), rotation = 0, rotationPoint = vec2(0,0)}
+			if v.transform then
+				newtrans = sb.jsonMerge(newtrans, v.transform or {})
+			end
+			self:add(i, newtrans)
 		end
 	end
 end

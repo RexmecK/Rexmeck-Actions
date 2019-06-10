@@ -1,12 +1,8 @@
-include "configInstance"
 include "directory"
 include "tableutil"
 
 _nestedmodules = {}
 function module(path)
-	if _included[path] then
-		return nil
-	end
 	if _nestedmodules[path] then
 		return table.copy(_nestedmodules[path])
 	end
@@ -17,7 +13,8 @@ function module(path)
 		module = nil
 	end
 
-	require(directory(path))
+	_SBLOADED = {}
+	require(directory(path, corePath))
 	if module then
 		_nestedmodules[path] = table.copy(module)
 	end

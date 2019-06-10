@@ -1,4 +1,4 @@
-include "configInstance"
+include "config"
 include "vec2"
 include "vec2util"
 include "mcontroller"
@@ -14,9 +14,9 @@ function main:init()
 	actorManager:init()
 	transforms:init()
 	animations:init()
-	self.targetFacing = configInstance.facing or 1
-	self.canMove = configInstance.canMove or false
-	self.movementSpeed = configInstance.movementSpeed or 14
+	self.targetFacing = config.facing or 1
+	self.canMove = config.canMove or false
+	self.movementSpeed = config.movementSpeed or 14
 	actorManager:toggleLounges(true)
 end
 
@@ -28,7 +28,7 @@ main.movementSpeed = 14
 function main:updateSeatControls()
 	if not self.canMove then return end
 	self.control = 0
-	for i,v in pairs(configInstance.loungePositions or {}) do
+	for i,v in pairs(config.loungePositions or {}) do
 		if vehicle.entityLoungingIn(i) then
 			if vehicle.controlHeld(i, "left") then
 				self.control = -1

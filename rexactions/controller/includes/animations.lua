@@ -1,5 +1,5 @@
 include "transforms"
-include "configInstance"
+include "config"
 include "directory"
 include "module"
 include "tableutil"
@@ -11,7 +11,7 @@ function animations:init()
 	message.setHandler("isAnyPlaying", function(_, loc, ...) if loc then return self:isAnyPlaying() end end)
 	message.setHandler("play", function(_, loc, keyFrames) if loc then self:playOverride(keyFrames) end end)
 	
-	for i,v in pairs(configInstance.animations or {}) do
+	for i,v in pairs(config.animations or {}) do
 		self:add(i,v)
 	end
 end
@@ -38,9 +38,9 @@ function animations:uninit()
 end
 
 function animations:add(name, keyFrames)
-	if type(keyFrames) == "string" then keyFrames = root.assetJson(directory(keyFrames, configInstance.directory or "/")) end
+	if type(keyFrames) == "string" then keyFrames = root.assetJson(directory(keyFrames, config.directory or "/")) end
 	if not keyFrames then return end
-	self.list[name] = module(corePath.."modules/animation.lua")
+	self.list[name] = module("modules/animation.lua")
 	self.list[name]:bindFireEvent(function(name) self:fireEvents(name) end)
 	self.list[name]:load(keyFrames)
 end
@@ -48,7 +48,7 @@ end
 function animations:playOverride(keyFrames)
 	if type(keyFrames) == "string" then keyFrames = root.assetJson(directory(keyFrames)) end
 	if not keyFrames then return end
-	self.override = module(corePath.."modules/animation.lua")
+	self.override = module("modules/animation.lua")
 	self.override:bindFireEvent(function(name) self:fireEvents(name) end)
 	self.override:load(keyFrames)
 	self.override:play()
@@ -82,6 +82,12 @@ end
 function animations:stop(name)
 	if self.list[name] then
 		self.list[name]:stop()
+	end
+end
+
+function animations:stopAll()
+	for i,v in pairs(self.list) do
+		self.list[i]:stop()
 	end
 end
 
