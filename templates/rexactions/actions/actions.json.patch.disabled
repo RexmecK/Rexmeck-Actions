@@ -1,0 +1,21 @@
+[
+	{
+		"op" : "add",
+		"path" : "/-",
+		"value" : {
+			//text for the pieMenu
+			"text" : "Template",
+
+			//icon for the pieMenu. adapts on size.
+			//note: it must be full path of the image file or else it will break the pieMenu
+			"image" : "/assetmissing.png",
+
+			// directory of the folder containing action.config if you want a different folder other than /rexactions/actions/
+			//"directory" : "/templates/rexactions/actions/template/"
+
+			// if the directory is defined. this is not needed. 
+			// it uses like this /rexactions/actions/<name>/
+			"name" : "template"
+		}, 
+	}
+]
