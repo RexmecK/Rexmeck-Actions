@@ -136,6 +136,10 @@ end
 
 self.bindedOnElementClicked = false
 
+local function dir(p,def)
+	if p:sub(1,1) == "/" then return p end
+	return def..p
+end
 
 function module:add(var, func)
 	local ne = {
@@ -144,7 +148,7 @@ function module:add(var, func)
 		angle = 0
 	}
 	if type(var) == "table" then
-		ne.image = var.image
+		ne.image = dir(var.image, var.directory or "")
 		ne.text = var.text
 	else
 		ne.text = tostring(var)
