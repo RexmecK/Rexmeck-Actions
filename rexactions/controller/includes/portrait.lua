@@ -261,26 +261,26 @@ function portrait:new(id)
 		if not portrait.species[n.specie] or not portrait.species[n.specie][n.gender] then --if not found EDIT: It will now guess the directories
 			portrait.species[n.specie] = {
 				male = {
-					["/humanoid/"..spe.."/malehead.png"] = "Head",
-					["/humanoid/"..spe.."/emote.png"] = "Face",
-					["/humanoid/"..spe.."/hair/"] = "Hair",
-					["/humanoid/"..spe.."/malebody.png"] = "Body",
-					["/humanoid/"..spe.."/backarm.png"] = "BackArm",
-					["/humanoid/"..spe.."/frontarm.png"] = "FrontArm",
-					["/humanoid/"..spe.."/fluff/"] = "Fluff",
-					["/humanoid/"..spe.."/beaks/"] = "Beaks",
-					["/humanoid/"..spe.."/beardfemale/"] = "Beard"
+					["/humanoid/"..n.specie.."/malehead.png"] = "Head",
+					["/humanoid/"..n.specie.."/emote.png"] = "Face",
+					["/humanoid/"..n.specie.."/hair/"] = "Hair",
+					["/humanoid/"..n.specie.."/malebody.png"] = "Body",
+					["/humanoid/"..n.specie.."/backarm.png"] = "BackArm",
+					["/humanoid/"..n.specie.."/frontarm.png"] = "FrontArm",
+					["/humanoid/"..n.specie.."/fluff/"] = "Fluff",
+					["/humanoid/"..n.specie.."/beaks/"] = "Beaks",
+					["/humanoid/"..n.specie.."/beardfemale/"] = "Beard"
 				},
 				female = {
-					["/humanoid/"..spe.."/femalehead.png"] = "Head",
-					["/humanoid/"..spe.."/emote.png"] = "Face",
-					["/humanoid/"..spe.."/hair/"] = "Hair",
-					["/humanoid/"..spe.."/femalebody.png"] = "Body",
-					["/humanoid/"..spe.."/backarm.png"] = "BackArm",
-					["/humanoid/"..spe.."/frontarm.png"] = "FrontArm",
-					["/humanoid/"..spe.."/fluff/"] = "Fluff",
-					["/humanoid/"..spe.."/beaks/"] = "Beaks",
-					["/humanoid/"..spe.."/beardfemale/"] = "Beard"
+					["/humanoid/"..n.specie.."/femalehead.png"] = "Head",
+					["/humanoid/"..n.specie.."/emote.png"] = "Face",
+					["/humanoid/"..n.specie.."/hair/"] = "Hair",
+					["/humanoid/"..n.specie.."/femalebody.png"] = "Body",
+					["/humanoid/"..n.specie.."/backarm.png"] = "BackArm",
+					["/humanoid/"..n.specie.."/frontarm.png"] = "FrontArm",
+					["/humanoid/"..n.specie.."/fluff/"] = "Fluff",
+					["/humanoid/"..n.specie.."/beaks/"] = "Beaks",
+					["/humanoid/"..n.specie.."/beardfemale/"] = "Beard"
 				}
 			}
 		end
