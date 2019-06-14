@@ -26,9 +26,11 @@ local function action(index, facing)
 
 		if var == name then
 			local vehicleid = rexaction(world.entityPosition(player.id()), actionpath, facing)
-			world.callScriptedEntity(vehicleid, "mcontroller.setVelocity", world.entityVelocity(playerId) or {0,0})
-			player.lounge(vehicleid)
-			return true
+			if world.entityExists(vehicleid) then
+				world.callScriptedEntity(vehicleid, "mcontroller.setVelocity", world.entityVelocity(playerId) or {0,0})
+				player.lounge(vehicleid)
+				return true
+			end
 		end
 
 	end

@@ -9,12 +9,22 @@ actorManager.actors = {}
 actorManager.seats = {}
 actorManager.ready = false
 
+local function speciesFullbright(specie)
+	if not specie then return false end
+	local speciesConfig = root.assetJson("/species/"..specie..".species")
+	if speciesConfig and speciesConfig.humanoidOverrides and speciesConfig.humanoidOverrides.bodyFullbright then
+		return speciesConfig.humanoidOverrides.bodyFullbright
+	end
+	return false
+end
+
 function actorManager:init()
 	self.loungePositions = config.loungePositions
 	for i,v in pairs(self.loungePositions) do
 		self.seats[i] = 0
 	end
 	self:setupEmotesAnimationEvent()
+	self:update(1/16)
 end
 
 function actorManager:setupEmotesAnimationEvent()
@@ -116,15 +126,14 @@ function actorManager:update(dt)
 	end
 
 	for SeatId,v in pairs(self.loungePositions) do
-		if vehicle.entityLoungingIn(SeatId) and self.seats[SeatId] ~= 2 then
-			self.seats[SeatId] = 2
-			vehicle.setLoungeStatusEffects(SeatId, {"invisible"})
+		local lounging =  vehicle.entityLoungingIn(SeatId)
+		if lounging and self.seats[SeatId] ~= 1 then
+			self.seats[SeatId] = 1
+			--vehicle.setLoungeStatusEffects(SeatId, {"invisible"})
 			animator.setAnimationState(SeatId, "show")
-		elseif not ready and self.seats[SeatId] > 0 then
-			self.seats[SeatId] = self.seats[SeatId] - 1
-		elseif self.seats[SeatId] == 0 then
+		elseif not lounging and self.seats[SeatId] == 1 then
 			self.seats[SeatId] = -1
-			vehicle.setLoungeStatusEffects(SeatId, {})
+			--vehicle.setLoungeStatusEffects(SeatId, {})
 			animator.setAnimationState(SeatId, "hidden")
 		end
 	end
@@ -149,6 +158,12 @@ function actorManager:setupActor(SeatId)
 	newactor.skinDirectives = newactor.portrait:skinDirectives()
 	animator.setGlobalTag(SeatId.."_gender", world.entityGender(lounging))
 	animator.setGlobalTag(SeatId.."_skinDirectives", newactor.skinDirectives)
+
+	if speciesFullbright(world.entitySpecies(lounging)) then
+		animator.setAnimationState(SeatId.."_fullbright", "true")
+	else
+		animator.setAnimationState(SeatId.."_fullbright", "false")
+	end
 
 	if parts.Head then
 		animator.setGlobalTag(SeatId.."_Head", newactor.portrait:image("Head")..":normal"..newactor.skinDirectives)
