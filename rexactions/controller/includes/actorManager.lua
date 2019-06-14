@@ -150,6 +150,8 @@ function actorManager:setupActor(SeatId)
 	animator.setGlobalTag(SeatId.."_gender", world.entityGender(lounging))
 	animator.setGlobalTag(SeatId.."_skinDirectives", newactor.skinDirectives)
 
+	sb.logInfo(sb.printJson(parts))
+
 	if parts.Head then
 		animator.setGlobalTag(SeatId.."_Head", newactor.portrait:image("Head")..":normal"..newactor.skinDirectives)
 	else
@@ -176,29 +178,16 @@ function actorManager:setupActor(SeatId)
 		animator.setGlobalTag(SeatId.."_HeadArmor", "/assetmissing.png")
 	end
 
-	if parts.Fluff then
-		animator.setGlobalTag(SeatId.."_Fluff", newactor.portrait:image("Fluff")..":normal"..newactor.portrait:directives("Fluff"))
+	if parts.FacialHair then
+		animator.setGlobalTag(SeatId.."_FacialHair", newactor.portrait:image("FacialHair")..":normal"..newactor.portrait:directives("FacialHair"))
 	else
-		animator.setGlobalTag(SeatId.."_Fluff", "/assetmissing.png")
+		animator.setGlobalTag(SeatId.."_FacialHair", "/assetmissing.png")
 	end
 
-	if parts.Beaks then
-		animator.setGlobalTag(SeatId.."_Beaks", newactor.portrait:image("Beaks")..":normal"..newactor.portrait:directives("Beaks"))
+	if parts.FacialMask then
+		animator.setGlobalTag(SeatId.."_FacialMask", newactor.portrait:image("FacialMask")..":normal"..newactor.portrait:directives("FacialMask"))
 	else
-		
-		animator.setGlobalTag(SeatId.."_Beaks", "/assetmissing.png")
-	end
-
-	if parts.Beard then
-		animator.setGlobalTag(SeatId.."_Beard", newactor.portrait:image("Beard")..":normal"..newactor.portrait:directives("Beard"))
-	else
-		animator.setGlobalTag(SeatId.."_Beard", "/assetmissing.png")
-	end
-
-	if parts.Brand then
-		animator.setGlobalTag(SeatId.."_Brand", newactor.portrait:image("Brand")..":normal"..newactor.portrait:directives("Brand"))
-	else
-		animator.setGlobalTag(SeatId.."_Brand", "/assetmissing.png")
+		animator.setGlobalTag(SeatId.."_FacialMask", "/assetmissing.png")
 	end
 
 	if parts.Body then
