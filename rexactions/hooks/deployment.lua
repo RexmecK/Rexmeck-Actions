@@ -58,7 +58,12 @@ function init(...)
 			end
 		end
 	)
-	oldInit(...)
+
+	local result, ret = pcall(oldInit, ...)
+	if not result then
+		sb.logError(tostring(ret))
+		oldInit = function() end
+	end
 end
 
 local function respawnMonster()
@@ -98,6 +103,10 @@ function update(...)
 		end
 	end
 
-	oldUpdate(...)
+	local result, ret = pcall(oldUpdate, ...)
+	if not result then
+		sb.logError(tostring(ret))
+		oldUpdate = function() end
+	end
 end
 

@@ -150,8 +150,6 @@ function actorManager:setupActor(SeatId)
 	animator.setGlobalTag(SeatId.."_gender", world.entityGender(lounging))
 	animator.setGlobalTag(SeatId.."_skinDirectives", newactor.skinDirectives)
 
-	sb.logInfo(sb.printJson(parts))
-
 	if parts.Head then
 		animator.setGlobalTag(SeatId.."_Head", newactor.portrait:image("Head")..":normal"..newactor.skinDirectives)
 	else

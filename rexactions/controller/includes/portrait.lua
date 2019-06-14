@@ -267,7 +267,6 @@ function portrait:new(id)
 		local n = tablecopy(self)
 		n.specie = world.entitySpecies(id)
 		n.portrait = world.entityPortrait(id, "full")
-		sb.logInfo(sb.printJson(n.portrait))
 		n.gender = world.entityGender(id)
 
 		if not portrait.species[n.specie] or not portrait.species[n.specie][n.gender] then --if not found EDIT: It will now guess the directories
