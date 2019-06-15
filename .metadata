@@ -8,5 +8,6 @@
   "requires" : [],
   "steamContentId" : "1768905929",
   "tags" : "Miscellaneous|Character Improvements",
-  "version" : "Alpha 2"
+  "version" : "Alpha 2",
+  "priority" : 9999
 }
