@@ -1,7 +1,7 @@
 [
 	{
 		"op": "add",
-		"path": "/deploymentConfig/scripts/-",
-		"value": "/rexactions/hooks/deployment.lua"
+		"path": "/genericScriptContexts/rexactions",
+		"value": "/rexactions/hooks/player.lua"
 	}
 ]
