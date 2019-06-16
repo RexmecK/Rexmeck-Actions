@@ -60,7 +60,7 @@ function update(...)
 end
 
 require "/rexactions/spawner/action.lua"
-local function action(index, facing)
+function action(index, facing)
 	if not index then return false end
 	if player.isLounging() then return false end
 
@@ -89,14 +89,14 @@ local function action(index, facing)
 	return false
 end
 
-local function respawnMonster()
+function respawnMonster()
 	local conf = root.assetJson("/rexactions/hooks/monsterConfig.json")
 	conf.ownerId = player.id()
 	monsterId = world.spawnMonster("mechshielddrone", playerPosition, conf)
 	return 
 end
 
-local function updateMonster()
+function updateMonster()
 	world.callScriptedEntity(monsterId, "mcontroller.setPosition", vec2.add(playerPosition, {0,-0.5}))
 	if player.isLounging() then
 		world.callScriptedEntity(monsterId, "blockInteractions")
