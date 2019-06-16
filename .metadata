@@ -1,13 +1,13 @@
 {
   "author" : "Rexmeck",
-  "description" : "[h1]Important note[/h1]\nCustom races are not tested so if you find any bugs pls report in the discord\nThis hooks onto playerDeployment scripts in order to get the mod working\n\n[h1]How to use[/h1]\n1. Install\n2. Press E on the center of your character\n3. It should open up a list of actions you can do on your character.\n4. dosomething???\n5. done",
+  "description" : "[h1]Important note[/h1]\nCustom races are not tested so if you find any bugs pls report in the discord https://discord.gg/DsvtjSR\nThis hooks onto playerDeployment scripts in order to get the mod working\n\n[h1]How to use[/h1]\n1. Install\n2. Press E on the center of your character\n3. It should open up a list of actions you can do on your character.\n4. dosomething???\n5. done",
   "friendlyName" : "Rexmeck Actions",
   "includes" : [],
   "link" : "steam://url/CommunityFilePage/1768905929",
   "name" : "rexactions",
+  "priority" : 9999,
   "requires" : [],
   "steamContentId" : "1768905929",
   "tags" : "Miscellaneous|Character Improvements",
-  "version" : "Alpha 2",
-  "priority" : 9999
+  "version" : "Alpha 3"
 }
