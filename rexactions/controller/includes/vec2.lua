@@ -1,48 +1,82 @@
 include "class"
 
+local vec2OP = {}
+
+function vec2OP.angle(self)
+	local angle = math.atan(self[1], self[2])
+	if angle < 0 then angle = angle + 2 * math.pi end
+	return angle
+end
+
+function vec2OP.clamp(self, min, max)
+	local v = {0,0}
+	if self[1] < min[1] then
+		v[1] = min[1]
+	elseif self[1] > max[1] then
+		v[1] = max[1]
+	else
+		v[1] = self[1]
+	end
+	if self[2] < min[2] then
+		v[2] = min[2]
+	elseif self[2] > max[2] then
+		v[2] = max[2]
+	else
+		v[2] = self[2]
+	end
+	return vec2(v)
+end
+
+function vec2OP.rotate(self, angle)
+	local sinAngle = math.sin(angle)
+	local cosAngle = math.cos(angle)
+
+	return vec2(
+		{
+			self[1] * cosAngle - self[2] * sinAngle,
+			self[1] * sinAngle + self[2] * cosAngle,
+		}
+	)
+end
+
+function vec2OP.lerp(self, b, ratio)
+	if type(b) == "number" then b = vec2(b) end
+	return self + (b - self) * ratio
+end
+
+
 local v2 = {}
 v2[1] = 0
 v2[2] = 0
 
 function v2:__index(a)
-	if a == "x" then 
-		return self[1]
-	elseif a == "y" then 
-		return self[2]
+	if type(a) == "string" then
+		if a == "x" then 
+			return self[1]
+		elseif a == "y" then 
+			return self[2]
+		elseif vec2OP[a] then
+			return function(...) return vec2OP[a](...) end 
+		end
 	end
 end
 
 function v2:__newindex(a, b)
-	if a == 1 then 
-		self[1] = b
-	elseif a == 2 then 
-		self[2] = b
+	local t = type(a)
+	if t == "number" then
+		if a == 1 then 
+			self[1] = b
+		elseif a == 2 then 
+			self[2] = b
+		end
+	elseif t == "string" then
+		if a == "x" then 
+			self[1] = b
+		elseif a == "y" then 
+			self[2] = b
+		end
 	end
 	return self
-end
-
-function v2:__call(x, y) -- constructor
-	local cloned = class:new(v2)
-
-	if type(x) == "table" then
-		if x[1] then
-			cloned[1] = x[1]
-			cloned[2] = x[2] or x[1]
-		elseif #x >= 2 then
-			cloned[1] = x[1]
-			cloned[2] = x[2] or x[1]
-		end
-	elseif x and y then
-		cloned[1] = x
-		cloned[2] = y
-	elseif x then
-		cloned[1] = x
-		cloned[2] = x
-	end
-
-	cloned[1] = cloned[1] or 0
-	cloned[2] = cloned[2] or 0
-	return cloned
 end
 
 --basic operators
@@ -148,4 +182,19 @@ function v2:__metatable(b)
 	return nil
 end
 
-vec2 = class:new(v2)
+local vec2mt = class:methodsOnly(v2)
+
+function vec2(x, y) -- constructor
+	local n = {0,0}
+	setmetatable(n, vec2mt)
+
+	if type(x) == "table" then
+		n[1] = x[1]
+		n[2] = x[2] or x[1]
+	elseif x then
+		n[1] = x
+		n[2] = y or x
+	end
+
+	return n
+end
