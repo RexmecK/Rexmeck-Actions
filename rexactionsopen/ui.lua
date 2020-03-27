@@ -1,4 +1,6 @@
 function init()
-    world.sendEntityMessage(player.id(), "rexactions.open")
+    if not player.isLounging() then
+        world.sendEntityMessage(player.id(), "rexactions.open")
+    end
     pane.dismiss()
 end

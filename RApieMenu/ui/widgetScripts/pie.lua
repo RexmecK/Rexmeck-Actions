@@ -22,35 +22,27 @@ end
 
 
 module._elements = {}
-module.inner = 25
-module.outer = 50
+module.inner = 75
+module.outer = 0
 module.clearing = false
 module.clearingDirection = 1
 module.waitclear = 0
 module.stylistWait = 5/60
-module.lerpRatio = 0.25
+module.lerpRatio = 1/4
 module.fontSize = 8
 
 function module:updateElements(dt)
 	if #self._elements == 0 then return end
 	local anglePerElement = 360 / #self._elements
 	for i,element in pairs(self._elements) do
-		self._elements[i].angle = lerp(self._elements[i].angle, anglePerElement * (i - 0.5), self.lerpRatio)
-		local target = vec2.rotate({0,self.inner}, math.rad(self._elements[i].angle))
+		self._elements[i].angle = anglePerElement * (i - 0.5)
+		local target = vec2.rotate({0,self.inner}, math.rad(anglePerElement * (i - 0.5)))
 		self._elements[i].position = vec2lerp(self._elements[i].position, target, self.lerpRatio)
 	end
 end
 
 function module:update(dt)
-	if self.clearing and #self._elements > 0 and self.waitclear == 0 then
-		if self.clearingDirection >= 0 then
-			self._elements[ #self._elements ] = nil
-			self.waitclear = self.stylistWait
-		elseif self.clearingDirection < 0 then
-			table.remove(self._elements, 1)
-			self.waitclear = self.stylistWait
-		end
-	elseif self.clearing and #self._elements == 0 then
+	if self.clearing then
 		if self.clearingdonefunc then
 			self.clearingdonefunc()
 		end
@@ -89,11 +81,6 @@ function module:updateCanvas(dt)
 			self.hovering = i
 			color = "#fff"
 		end
-
-		-- they look ugly
-		--self.canvas:drawRect(rect.translate({-1,-1, 1, 1}, cur), color)
-		--self.canvas:drawLine(cur, curOuter, color.."8", 4)
-		--self.canvas:drawRect(rect.translate({-1,-1, 1, 1}, curOuter), color)
 
 		self.canvas:drawImage(self.elementImage or "/assetmissing.png", curOuter, 1, "#fff", true)
 
@@ -165,6 +152,7 @@ function module:stylistClear(direction, donefunc)
 	self.clearingDirection = direction or 1
 	self.clearing = true
 	self.clearingdonefunc = donefunc
+	self._elements = {}
 end
 
 function module:clear(donefunc)
