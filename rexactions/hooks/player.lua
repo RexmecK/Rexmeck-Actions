@@ -48,9 +48,17 @@ function update(...)
 		end
 	end
 
-	if type(monsterId) == "nil" then
+	if player.getProperty("rexactions_disableE") then
+		if monsterId then
+			if world.entityExists(monsterId) then
+				world.callScriptedEntity(monsterId, "kill")
+			end
+			monsterId = nil
+		end
+		
+	elseif type(monsterId) == "nil" then
 		respawnMonster()
-	else --resume if we have our monster
+	else
 		if monsterId and world.entityExists(monsterId) then
 			updateMonster()
 		elseif monsterId then

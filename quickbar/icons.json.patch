@@ -1,0 +1,12 @@
+[
+	{
+		"op": "add",
+    	"path": "/normal/-",
+    	"value": { "label" : "Rexmeck Actions Settings", "pane" : "/rexactionssettings/main.window", "icon" : "/rexactionssettings/image/smallicon.png" }
+    },
+	{
+		"op": "add",
+    	"path": "/normal/-",
+    	"value": { "label" : "Open Rexmeck Actions", "pane" : "/rexactionsopen/main.window", "icon" : "/rexactionsopen/image/smallicon.png" }
+    }
+]

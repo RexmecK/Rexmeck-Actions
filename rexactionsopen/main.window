@@ -1,0 +1,21 @@
+{
+	"gui" : {
+
+		"background" : {
+			"zlevel" : -1,
+			"type" : "background",
+
+			"fileHeader" : "/rexactionsopen/image/header.png",
+			"fileBody" : "/rexactionsopen/image/body.png"
+		}
+	},
+
+	"canvasClickCallbacks" : {},
+	
+	"canvasKeyCallbacks" : {},
+	
+	"scriptWidgetCallbacks" : [],
+		
+	"scripts" : ["/rexactionsopen/ui.lua"],
+	"scriptDelta" : 1
+}

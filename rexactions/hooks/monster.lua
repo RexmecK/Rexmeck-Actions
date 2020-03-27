@@ -2,7 +2,7 @@ ownerId = 0
 interactive = 0
 
 function init()
-	if storage.die then function shouldDie() return true end end
+	if storage.die then kill() end
 	ownerId = config.getParameter("ownerId")
 end
 
@@ -30,5 +30,9 @@ end
 
 function uninit()
 	storage.die = true
+	kill()
+end
+
+function kill()
 	function shouldDie() return true end
 end
